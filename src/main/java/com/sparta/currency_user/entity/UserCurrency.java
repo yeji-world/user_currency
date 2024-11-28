@@ -1,5 +1,6 @@
 package com.sparta.currency_user.entity;
 
+import com.sparta.currency_user.status.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Table(name = "user_currency")
-public class UserCurrency {
+public class UserCurrency extends Time{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
