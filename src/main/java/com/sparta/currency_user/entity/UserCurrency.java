@@ -25,7 +25,7 @@ public class UserCurrency extends Time{
     private Currency currency;
 
     @Column(name = "amount_in_krw", nullable = false)
-    private BigDecimal beforAmount;
+    private BigDecimal beforeAmount;
 
     @Column(name = "amount_after_exchange", nullable = false)
     private BigDecimal afterAmount;
@@ -37,7 +37,7 @@ public class UserCurrency extends Time{
     public UserCurrency(User user, Currency currency, BigDecimal beforAmount, BigDecimal afterAmount, Status status) {
         this.user = user;
         this.currency = currency;
-        this.beforAmount = beforAmount;
+        this.beforeAmount = beforeAmount;
         this.afterAmount = afterAmount;
         this.status = status;
     }
