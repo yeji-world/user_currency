@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Getter
-public class Currency {
+public class Currency extends Time{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
