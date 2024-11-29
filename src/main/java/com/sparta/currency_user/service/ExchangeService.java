@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,10 +25,29 @@ public class ExchangeService {
     public ExchangeResponseDto createExchange(ExchangeRequestDto requestDto) {
         User findUser = userService.findUserById(requestDto.getUserId());
         Currency findCurrency = currencyService.findCurrencyById(requestDto.getCurrencyId());
-        BigDecimal afterAmount = requestDto.getBeforeAmount().divide(findCurrency.getExchangeRate(),2, RoundingMode.HALF_UP);
-        UserCurrency userCurrency = new UserCurrency(findUser, findCurrency, requestDto.getBeforeAmount(), afterAmount, Status.normal);
+        BigDecimal afterAmount = exchangeMoney(findCurrency.getExchangeRate(), requestDto.getBeforeAmount());
+        UserCurrency userCurrency = new UserCurrency(findUser, findCurrency, requestDto.getBeforeAmount(), afterAmount, Status.NORMAL);
         UserCurrency savedUserCurrency = exchangeRepository.save(userCurrency);
 
         return new ExchangeResponseDto(savedUserCurrency);
+    }
+
+    public List<ExchangeResponseDto> findExchange(Long userId) {
+        List<UserCurrency> findExchangeList = exchangeRepository.findAllByUserId(userId);
+
+        return findExchangeList.stream().map(ExchangeResponseDto::new).toList();
+    }
+
+    public ExchangeResponseDto cancelExchange(Long currencyId) {
+        UserCurrency findUserCurrency = exchangeRepository.findByIdOrElseThrows(currencyId);
+        findUserCurrency.cancelExchange(Status.CANCELLED);
+        UserCurrency savedUserCurrency = exchangeRepository.save(findUserCurrency);
+
+        return new ExchangeResponseDto(savedUserCurrency);
+    }
+
+    private BigDecimal exchangeMoney(BigDecimal exchangeRate, BigDecimal beforeAmount){
+
+        return beforeAmount.divide(exchangeRate,2, RoundingMode.HALF_UP);
     }
 }

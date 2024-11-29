@@ -7,8 +7,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -19,10 +20,22 @@ public class ExchangeController {
 
     @PostMapping
     public ResponseEntity<ExchangeResponseDto> createExchange(
-            @PathVariable Long user_id,
             @Valid @RequestBody ExchangeRequestDto requestDto
     ){
         ExchangeResponseDto responseDto = exchangeService.createExchange(requestDto);
-        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<ExchangeResponseDto>> findExchange(@PathVariable Long userId){
+        List<ExchangeResponseDto> responseDtoList = exchangeService.findExchange(userId);
+        return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{exchangeId}")
+    public ResponseEntity<ExchangeResponseDto> cancelExchange(@PathVariable Long exchangeId) {
+        ExchangeResponseDto responseDto = exchangeService.cancelExchange(exchangeId);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
 }

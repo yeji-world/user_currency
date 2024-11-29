@@ -34,7 +34,7 @@ public class UserCurrency extends Time{
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public UserCurrency(User user, Currency currency, BigDecimal beforAmount, BigDecimal afterAmount, Status status) {
+    public UserCurrency(User user, Currency currency, BigDecimal beforeAmount, BigDecimal afterAmount, Status status) {
         this.user = user;
         this.currency = currency;
         this.beforeAmount = beforeAmount;
@@ -43,5 +43,9 @@ public class UserCurrency extends Time{
     }
 
     public UserCurrency() {
+    }
+
+    public void cancelExchange(Status status) {
+        this.status = status;
     }
 }
