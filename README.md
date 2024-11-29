@@ -7,6 +7,8 @@
 | 기능    | Method | URL                 | request  | response | 상태코드                                     |
 |-------|--------|---------------------|----------|----------|------------------------------------------|
 | 유저 등록 | POST   | /users          | 요청 body  | 등록 정보    | 200: 정상 등록        |
+| 유저 로그인    | POST | /users/login | 요청 body | -        | 200: 정상 로그인  404: 찾을 수 없음 |
+| 유저 로그아웃    | GET | /users/logout | -  | -        | 200: 정상 로그아웃 |
 | 유저 전체 조회 | GET    | /users      | 요청 param | 조회 정보 | 200: 정상 조회      |
 | 유저 선택 조회 | GET    | /users/{id}      | 요청 param | 조회 정보 | 200: 정상 조회  404: 찾을 수 없음    |
 | 유저 선택 삭제    | DELETE | /users/{id} | 요청 param     | -        | 200: 정상 삭제  404: 찾을 수 없음 |
@@ -19,7 +21,8 @@
 ```
 {
     "name": "test",
-    "email": "test@test.com"
+    "email": "test1@test.com",
+    "password": "123456"
 }
 ```
 응답
@@ -29,6 +32,34 @@
     "name": "test",
     "email": "test@test.com"
 }
+```
+
+- `POST` 로그인
+
+`URL: users/login`
+
+요청
+```
+{
+    "email": "test@test.com",
+    "password": "123456"
+}
+```
+응답
+```
+-
+```
+- `GET` 로그아웃
+
+`URL: users/logout`
+
+요청
+```
+-
+```
+응답
+```
+-
 ```
 
 - `GET` 유저 전체 조회
