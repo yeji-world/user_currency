@@ -245,4 +245,5 @@ URL : /exchanges/{id}
 
 ## [ ERD ]
 
-<img width="968" alt="image" src="https://github.com/user-attachments/assets/58aaa29b-f9b9-446e-a6cb-e9c3499f665f">
+<img width="716" alt="image" src="https://github.com/user-attachments/assets/752285ed-3f43-4662-a540-9f2857bd4bc7">
+
