@@ -15,13 +15,15 @@ public class User extends Time{
 
     private String name;
     private String email;
+    private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<UserCurrency> userCurrencyList = new ArrayList<>();
 
-    public User(String name, String email) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
+        this.password = password;
     }
 
     public User() {}

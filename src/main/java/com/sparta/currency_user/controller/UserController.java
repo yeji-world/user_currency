@@ -1,10 +1,14 @@
 package com.sparta.currency_user.controller;
 
+import com.sparta.currency_user.dto.LoginRequestDto;
 import com.sparta.currency_user.dto.UserRequestDto;
 import com.sparta.currency_user.dto.UserResponseDto;
 import com.sparta.currency_user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +35,27 @@ public class UserController {
     public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserRequestDto userRequestDto) {
         return ResponseEntity.ok().body(userService.save(userRequestDto));
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequestDto requestDto, HttpServletRequest request) {
+        userService.login(requestDto);
+        HttpSession session = request.getSession();
+        session.setAttribute("email", requestDto.getEmail());
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {

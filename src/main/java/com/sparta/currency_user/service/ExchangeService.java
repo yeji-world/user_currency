@@ -9,6 +9,7 @@ import com.sparta.currency_user.repository.ExchangeRepository;
 import com.sparta.currency_user.status.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -38,6 +39,7 @@ public class ExchangeService {
         return findExchangeList.stream().map(ExchangeResponseDto::new).toList();
     }
 
+    @Transactional
     public ExchangeResponseDto cancelExchange(Long currencyId) {
         UserCurrency findUserCurrency = exchangeRepository.findByIdOrElseThrows(currencyId);
         findUserCurrency.cancelExchange(Status.CANCELLED);
