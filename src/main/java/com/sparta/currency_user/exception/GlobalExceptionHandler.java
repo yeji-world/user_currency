@@ -24,6 +24,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException e) {
+
+        if ("INVALID_EXCHANGE_RATE".equals(e.getMessage())) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "환율은 0 이하일 수 없습니다."));
+        }
+
         return ResponseEntity.internalServerError().body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "정보를 찾을 수 없습니다."));
     }
 }
