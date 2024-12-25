@@ -6,7 +6,7 @@ import com.sparta.currency_user.entity.Currency;
 import com.sparta.currency_user.entity.User;
 import com.sparta.currency_user.entity.UserCurrency;
 import com.sparta.currency_user.repository.ExchangeRepository;
-import com.sparta.currency_user.status.Status;
+import com.sparta.currency_user.enums.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +26,7 @@ public class ExchangeService {
     public ExchangeResponseDto createExchange(ExchangeRequestDto requestDto) {
         User findUser = userService.findUserById(requestDto.getUserId());
         Currency findCurrency = currencyService.findCurrencyById(requestDto.getCurrencyId());
-        BigDecimal afterAmount = exchangeMoney(findCurrency.getExchangeRate(), requestDto.getBeforeAmount());
+        BigDecimal afterAmount = exchangeMoney(findCurrency, requestDto.getBeforeAmount());
         UserCurrency userCurrency = new UserCurrency(findUser, findCurrency, requestDto.getBeforeAmount(), afterAmount, Status.NORMAL);
         UserCurrency savedUserCurrency = exchangeRepository.save(userCurrency);
 
@@ -48,8 +48,12 @@ public class ExchangeService {
         return new ExchangeResponseDto(savedUserCurrency);
     }
 
-    private BigDecimal exchangeMoney(BigDecimal exchangeRate, BigDecimal beforeAmount){
+    private BigDecimal exchangeMoney(Currency currency, BigDecimal beforeAmount){
+        BigDecimal exchangeRate = currency.getExchangeRate();
+        if(currency.getCurrencyName().isUseHundredUnit()) {
+            exchangeRate = exchangeRate.divide(BigDecimal.valueOf(100));
+        }
 
-        return beforeAmount.divide(exchangeRate,2, RoundingMode.HALF_UP);
+        return beforeAmount.divide(exchangeRate,currency.getCurrencyName().isHasDecimalPoint()? 2 : 0, RoundingMode.HALF_UP);
     }
 }

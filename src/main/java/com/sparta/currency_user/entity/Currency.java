@@ -1,9 +1,7 @@
 package com.sparta.currency_user.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.sparta.currency_user.enums.CurrencyName;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -15,15 +13,15 @@ public class Currency extends Time{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String currencyName;
+    @Enumerated(EnumType.STRING)
+    private CurrencyName currencyName;
     private BigDecimal exchangeRate;
-    private String symbol;
 
-    public Currency(String currencyName, BigDecimal exchangeRate, String symbol) {
+    public Currency(CurrencyName currencyName, BigDecimal exchangeRate) {
         this.currencyName = currencyName;
         this.exchangeRate = exchangeRate;
-        this.symbol = symbol;
     }
 
     public Currency() {}
+
 }

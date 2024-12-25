@@ -3,11 +3,13 @@ package com.sparta.currency_user.service;
 import com.sparta.currency_user.dto.CurrencyRequestDto;
 import com.sparta.currency_user.dto.CurrencyResponseDto;
 import com.sparta.currency_user.entity.Currency;
+import com.sparta.currency_user.enums.CurrencyName;
 import com.sparta.currency_user.repository.CurrencyRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -36,6 +38,7 @@ public class CurrencyService {
 
     @Transactional
     public CurrencyResponseDto save(CurrencyRequestDto currencyRequestDto) {
+        validateCurrencyName(currencyRequestDto.getCurrencyName());
         validateExchangeRate(currencyRequestDto.getExchangeRate());
         Currency savedCurrency = currencyRepository.save(currencyRequestDto.toEntity());
         return new CurrencyResponseDto(savedCurrency);
@@ -45,6 +48,13 @@ public class CurrencyService {
         if (exchangeRate.signum() <= 0) {
             log.error("입력하신 환율을 다시 확인해주세요.");
             throw new IllegalArgumentException("INVALID_EXCHANGE_RATE");
+        }
+    }
+
+    private void validateCurrencyName(CurrencyName currencyName) {
+        if (currencyName != CurrencyName.USD && currencyName != CurrencyName.JPY && currencyName != CurrencyName.EUR) {
+            log.error("유효하지 않은 통화 이름입니다.");
+            throw new IllegalArgumentException("INVALID_CURRENCY_NAME");
         }
     }
 

@@ -1,4 +1,4 @@
-package com.sparta.currency_user.status;
+package com.sparta.currency_user.enums;
 
 import lombok.Getter;
 

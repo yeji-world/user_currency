@@ -1,12 +1,10 @@
 package com.sparta.currency_user.entity;
 
-import com.sparta.currency_user.status.Status;
+import com.sparta.currency_user.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter

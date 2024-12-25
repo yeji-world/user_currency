@@ -2,6 +2,7 @@ package com.sparta.currency_user.dto;
 
 import com.sparta.currency_user.entity.Currency;
 import com.sparta.currency_user.entity.UserCurrency;
+import com.sparta.currency_user.enums.CurrencyName;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 public class ExchangeResponseDto {
     private Long exchangeId;
     private Long userId;
-    private String currencyName;
+    private CurrencyName currencyName;
     private BigDecimal exchangeRate;
     private BigDecimal beforeAmount;
     private BigDecimal afterAmount;
