@@ -2,6 +2,7 @@ package com.sparta.currency_user.service;
 
 import com.sparta.currency_user.dto.ExchangeRequestDto;
 import com.sparta.currency_user.dto.ExchangeResponseDto;
+import com.sparta.currency_user.dto.TotalExchageResponseDto;
 import com.sparta.currency_user.entity.Currency;
 import com.sparta.currency_user.entity.User;
 import com.sparta.currency_user.entity.UserCurrency;
@@ -37,6 +38,10 @@ public class ExchangeService {
         List<UserCurrency> findExchangeList = exchangeRepository.findAllByUserId(userId);
 
         return findExchangeList.stream().map(ExchangeResponseDto::new).toList();
+    }
+
+    public TotalExchageResponseDto findTotalExchange(Long userId) {
+        return exchangeRepository.findTotalExchangeByUserId(userId);
     }
 
     @Transactional

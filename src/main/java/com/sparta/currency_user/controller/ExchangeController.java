@@ -2,6 +2,7 @@ package com.sparta.currency_user.controller;
 
 import com.sparta.currency_user.dto.ExchangeRequestDto;
 import com.sparta.currency_user.dto.ExchangeResponseDto;
+import com.sparta.currency_user.dto.TotalExchageResponseDto;
 import com.sparta.currency_user.service.ExchangeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,10 +33,15 @@ public class ExchangeController {
         return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
     }
 
+    @GetMapping("/{userId}/total")
+    public ResponseEntity<TotalExchageResponseDto> findTotalExchange(@PathVariable Long userId){
+        TotalExchageResponseDto totalDto = exchangeService.findTotalExchange(userId);
+        return new ResponseEntity<>(totalDto, HttpStatus.OK);
+    }
+
     @PatchMapping("/{exchangeId}")
     public ResponseEntity<ExchangeResponseDto> cancelExchange(@PathVariable Long exchangeId) {
         ExchangeResponseDto responseDto = exchangeService.cancelExchange(exchangeId);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
-
 }
